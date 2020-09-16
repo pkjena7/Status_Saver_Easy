@@ -1,14 +1,19 @@
 package com.example.statussavereasy;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +28,7 @@ public class VideoStatusFragment extends Fragment {
     Fragment fragment;
     RecyclerView recyclerView;
     VideoStatusAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,8 +48,7 @@ public class VideoStatusFragment extends Fragment {
         return view;
 
     }
-    public void readVideoFromDevice(){
-
+    public void readVideoFromDevice() {
 
         String ExternalStorageDirectoryPath = Environment
                 .getExternalStorageDirectory()
@@ -54,11 +59,13 @@ public class VideoStatusFragment extends Fragment {
 
         File[] files = targetDirector.listFiles();
         for (File file : files) {
-
-            videos.add(file.getAbsolutePath());
+            String filePath = file.getPath();
+            if(filePath.endsWith(".mp4"))
+                videos.add(file.getAbsolutePath());
         }
         adapter = new VideoStatusAdapter(videos, getActivity());
         recyclerView.setAdapter(adapter);
+    }
 
-   }
+
 }

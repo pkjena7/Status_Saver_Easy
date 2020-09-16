@@ -61,7 +61,8 @@ public class ImageStatusFragment extends Fragment {
 
         File[] files = targetDirector.listFiles();
         for (File file : files) {
-
+            String filePath = file.getPath();
+            if(filePath.endsWith(".jpg"))
             images.add(file.getAbsolutePath());
         }
         adapter = new ImageStatusAdapter(images, getActivity());
